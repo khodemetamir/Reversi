@@ -76,20 +76,22 @@ body {
 
 /* --- Menu Styles --- */
 #menu {
-    padding: 40px 40px 60px 40px;
+    padding: 40px 40px 60px 40px; /* Bottom padding for settings icon */
     background-color: var(--board-bg);
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     position: relative;
     transition: background-color 0.3s ease;
-    width: 400px; /* Example width */
+    width: 350px; /* Adjusted width */
+    max-width: 90%;
     box-sizing: border-box;
 }
 
 #menu h1 {
     margin-top: 0;
+    margin-bottom: 25px; /* More space below title */
     color: var(--accent-color);
-    font-size: 3em;
+    font-size: 2.8em; /* Slightly smaller */
     text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
     transition: color 0.3s ease;
 }
@@ -98,16 +100,16 @@ body {
     display: flex;
     flex-direction: column; /* Stack buttons vertically */
     align-items: stretch; /* Make buttons fill width */
-    gap: 10px;
-    margin-bottom: 20px; /* Space before settings icon */
+    gap: 12px; /* Space between buttons */
+    margin-bottom: 25px; /* Space before settings icon */
 }
 
 .menu-options button {
     background-color: var(--accent-color);
     color: var(--button-text);
     border: none;
-    padding: 12px 20px; /* Adjust padding */
-    font-size: 1.1em; /* Adjust font size */
+    padding: 12px 20px;
+    font-size: 1.1em;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease, opacity 0.3s ease;
@@ -125,15 +127,17 @@ body {
     filter: brightness(0.9);
 }
 
+/* Style disabled Load Game button */
 .menu-options button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
-    filter: grayscale(50%);
-    background-color: gray; /* More visual cue */
+    filter: grayscale(30%);
+    background-color: grey; /* More visible disabled state */
+    box-shadow: none;
 }
 
-
+/* Settings Icon Button */
 #settings-btn {
     position: absolute;
     bottom: 15px;
@@ -165,10 +169,10 @@ body {
     background-color: var(--modal-bg); color: var(--modal-text);
     padding: 20px 30px; border-radius: 8px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4); position: relative;
-    min-width: 350px; max-width: 90%;
+    min-width: 380px; max-width: 90%; /* Slightly wider */
     transition: background-color 0.3s ease, color 0.3s ease;
-    max-height: 80vh; /* Limit height and allow scroll */
-    overflow-y: auto; /* Add scroll if content exceeds height */
+    max-height: 85vh; /* Limit height */
+    overflow-y: auto; /* Add scroll if needed */
 }
 
 .close-btn {
@@ -179,68 +183,88 @@ body {
 .close-btn:hover { color: var(--accent-color); }
 
 .setting-option {
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid rgba(128,128,128,0.3); /* Subtle separator */
+    margin-bottom: 20px; padding-bottom: 15px;
+    border-bottom: 1px solid rgba(128,128,128,0.3);
 }
-.setting-option:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
+.setting-option:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 
 .setting-option h3 {
-    margin-top: 0; margin-bottom: 10px;
-    color: var(--accent-color); font-size: 1.1em;
-    transition: color 0.3s ease;
+    margin-top: 0; margin-bottom: 10px; color: var(--accent-color);
+    font-size: 1.1em; transition: color 0.3s ease;
 }
 
 .setting-choices { display: flex; flex-wrap: wrap; gap: 8px; }
 
-/* General setting button style */
+/* General setting button style (for Theme/Difficulty) */
 .setting-btn {
     padding: 6px 12px; font-size: 0.9em;
     border: 1px solid var(--accent-color); background-color: transparent;
     color: var(--accent-color); border-radius: 5px; cursor: pointer;
-    font-weight: 500; /* Normal weight */
-    transition: background-color 0.2s ease, color 0.2s ease;
+    font-weight: 500; transition: background-color 0.2s ease, color 0.2s ease;
     margin: 3px;
 }
 .setting-btn:hover {
     background-color: var(--accent-color);
-    color: var(--modal-bg, var(--default-bg-color));
+    color: var(--modal-bg, var(--default-bg-color)); /* Use modal bg for text contrast */
 }
 /* Active state for Theme/Difficulty */
 .setting-btn.active {
      background-color: var(--accent-color);
      color: var(--modal-bg, var(--default-bg-color));
-     font-weight: bold;
-     box-shadow: inset 0 0 4px rgba(0,0,0,0.2);
-}
-
-/* Statistics Display */
-#stats-display {
-    margin-top: 10px; margin-bottom: 10px; padding: 10px;
-    background-color: rgba(0,0,0,0.1); border: 1px solid var(--square-border);
-    border-radius: 4px; font-size: 0.85em; white-space: pre-line;
-    text-align: left; color: var(--modal-text); /* Ensure text color matches modal */
+     font-weight: bold; box-shadow: inset 0 0 4px rgba(0,0,0,0.2);
 }
 /* Reset/Danger button style */
-.danger-btn {
-    border-color: #e53935; /* Material Red */ color: #e53935;
-}
-.danger-btn:hover {
-    background-color: #e53935; color: var(--modal-text, #fff); /* White text on red */
-}
+.danger-btn { border-color: #e53935; color: #e53935; }
+.danger-btn:hover { background-color: #e53935; color: var(--modal-text, #fff); }
+#reset-stats-btn { margin-top: 15px; } /* Space above reset button */
 
 
-/* --- Game Area Styles (Using Variables) --- */
-#game-area {
-    display: flex; flex-direction: column; align-items: center;
+/* --- Statistics Display Styles --- */
+.stats-container {
+    margin-top: 10px; margin-bottom: 15px; padding: 10px 15px;
+    background-color: rgba(0,0,0,0.1);
+    border: 1px solid var(--square-border, rgba(128,128,128,0.2));
+    border-radius: 6px; font-size: 0.9em; text-align: left;
 }
+.stats-container p { margin: 0; font-style: italic; opacity: 0.7; } /* Loading text */
+
+.stats-section-header {
+    font-weight: bold; color: var(--accent-color); margin-top: 10px;
+    margin-bottom: 8px; font-size: 1.05em;
+    border-bottom: 1px solid var(--accent-color); padding-bottom: 4px;
+}
+.stats-section-header:first-child { margin-top: 0; }
+
+.stats-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 5px 0; border-bottom: 1px dashed rgba(128,128,128,0.15);
+    margin-bottom: 3px;
+}
+.stats-row:last-child { border-bottom: none; margin-bottom: 0; }
+
+.stats-label {
+    flex-basis: 35%; /* Slightly less space */ font-weight: 500;
+    color: var(--modal-text); padding-right: 10px; text-transform: capitalize;
+}
+
+.stats-values {
+    flex-grow: 1; display: flex; justify-content: flex-end;
+    gap: 12px; /* Adjust gap */ text-align: right;
+}
+
+.stat-value { display: inline-block; min-width: 45px; text-align: right; } /* Wider min-width */
+.stat-value .value-label { font-weight: bold; margin-right: 4px; opacity: 0.8; }
+.stat-value.win .value-label { color: #66bb6a; } /* Softer Green */
+.stat-value.loss .value-label { color: #ef5350; } /* Softer Red */
+.stat-value.draw .value-label { color: #bdbdbd; } /* Softer Grey */
+.stat-value .value-number { font-weight: bold; color: var(--modal-text); }
+
+
+/* --- Game Area Styles --- */
+#game-area { display: flex; flex-direction: column; align-items: center; }
 
 .status-bar {
-    display: flex; justify-content: space-between; width: 480px;
+    display: flex; justify-content: space-between; width: 494px; /* Adjusted width slightly */
     margin-bottom: 15px; font-size: 1.1em; font-weight: bold;
     padding: 10px 20px; background-color: var(--board-bg);
     border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
@@ -289,23 +313,23 @@ body {
 
 /* In-game Buttons Container */
 .game-buttons {
-    margin-top: 15px; display: flex; flex-wrap: wrap; /* Allow wrap on small screens */
-    justify-content: center; /* Center buttons */ gap: 10px;
+    margin-top: 15px; display: flex; flex-wrap: wrap;
+    justify-content: center; gap: 10px; width: 100%; max-width: 494px;
 }
 /* In-game Button Styling */
 .game-buttons button {
-    background-color: var(--accent-color);
-    color: var(--button-text);
+    background-color: var(--accent-color); color: var(--button-text);
     border: none; padding: 10px 18px; font-size: 0.95em;
     border-radius: 5px; cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease, opacity 0.3s ease;
     font-weight: bold; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    flex-grow: 0; /* Prevent buttons from stretching unevenly */
 }
 .game-buttons button:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-1px); }
 .game-buttons button:active:not(:disabled) { transform: translateY(0px); filter: brightness(0.9); }
 .game-buttons button:disabled {
     opacity: 0.5; cursor: not-allowed; transform: none;
-    filter: grayscale(50%); box-shadow: none;
+    filter: grayscale(30%); box-shadow: none; background-color: grey;
 }
 
 /* Action Feedback Message */
@@ -314,12 +338,8 @@ body {
     font-size: 0.9em; font-weight: bold;
     background-color: var(--accent-color); color: var(--button-text);
     opacity: 0; transition: opacity 0.5s ease-out;
-    position: fixed; /* Position fixed to overlay */
-    bottom: 20px; /* Position at the bottom */
-    left: 50%;
-    transform: translateX(-50%); /* Center horizontally */
-    z-index: 1100; /* Above modal backdrop */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    z-index: 1100; box-shadow: 0 2px 8px rgba(0,0,0,0.3); pointer-events: none; /* Prevent clicking on it */
 }
 .feedback-message:not(.hidden) { opacity: 1; }
 

@@ -1,1 +1,1 @@
-## Reversi Gam
+# Reversi(Othello) Game
