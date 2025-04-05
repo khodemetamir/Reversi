@@ -33,51 +33,24 @@
 }
 
 .theme-blue {
-    --bg-color: #1c2331; /* Dark Blueish */
-    --board-bg: #11161f;
-    --square-bg: #2a5a7a; /* Medium Blue */
-    --square-border: #1a3c5a;
-    --text-color: #c5cae9; /* Lighter Blue/Lavender */
-    --accent-color: #42a5f5; /* Bright Blue */
-    --black-piece: #37474f; /* Dark Slate Grey */
-    --white-piece: #e3f2fd; /* Very Light Blue */
-    --valid-move-color: rgba(66, 165, 245, 0.5);
-    --hover-valid-move-color: rgba(66, 165, 245, 0.8);
-    --modal-bg: #37474f;
-    --modal-text: #e3f2fd;
-    --button-text: #1c2331;
+    --bg-color: #1c2331; --board-bg: #11161f; --square-bg: #2a5a7a; --square-border: #1a3c5a;
+    --text-color: #c5cae9; --accent-color: #42a5f5; --black-piece: #37474f; --white-piece: #e3f2fd;
+    --valid-move-color: rgba(66, 165, 245, 0.5); --hover-valid-move-color: rgba(66, 165, 245, 0.8);
+    --modal-bg: #37474f; --modal-text: #e3f2fd; --button-text: #1c2331;
 }
 
 .theme-forest {
-    --bg-color: #263238; /* Dark Grey Green */
-    --board-bg: #1b2326;
-    --square-bg: #38553a; /* Forest Green */
-    --square-border: #2a402c;
-    --text-color: #dcedc8; /* Light Greenish Yellow */
-    --accent-color: #8bc34a; /* Lime Green */
-    --black-piece: #3e2723; /* Dark Brown */
-    --white-piece: #f1f8e9; /* Very Light Green */
-    --valid-move-color: rgba(139, 195, 74, 0.5);
-    --hover-valid-move-color: rgba(139, 195, 74, 0.8);
-    --modal-bg: #3e2723;
-    --modal-text: #f1f8e9;
-    --button-text: #263238;
+    --bg-color: #263238; --board-bg: #1b2326; --square-bg: #38553a; --square-border: #2a402c;
+    --text-color: #dcedc8; --accent-color: #8bc34a; --black-piece: #3e2723; --white-piece: #f1f8e9;
+    --valid-move-color: rgba(139, 195, 74, 0.5); --hover-valid-move-color: rgba(139, 195, 74, 0.8);
+    --modal-bg: #3e2723; --modal-text: #f1f8e9; --button-text: #263238;
 }
 
 .theme-classic {
-    --bg-color: #f5f5f5; /* Light Grey */
-    --board-bg: #e0e0e0; /* Medium Grey */
-    --square-bg: #689f38; /* Classic Green */
-    --square-border: #4e7a2a;
-    --text-color: #212121; /* Dark Grey / Black */
-    --accent-color: #d32f2f; /* Red */
-    --black-piece: #333333; /* Dark Grey */
-    --white-piece: #ffffff; /* Pure White */
-    --valid-move-color: rgba(211, 47, 47, 0.4); /* Transparent Red */
-    --hover-valid-move-color: rgba(211, 47, 47, 0.7);
-    --modal-bg: #ffffff;
-    --modal-text: #212121;
-    --button-text: #ffffff; /* White text on red buttons */
+    --bg-color: #f5f5f5; --board-bg: #e0e0e0; --square-bg: #689f38; --square-border: #4e7a2a;
+    --text-color: #212121; --accent-color: #d32f2f; --black-piece: #333333; --white-piece: #ffffff;
+    --valid-move-color: rgba(211, 47, 47, 0.4); --hover-valid-move-color: rgba(211, 47, 47, 0.7);
+    --modal-bg: #ffffff; --modal-text: #212121; --button-text: #ffffff;
 }
 
 
@@ -85,8 +58,8 @@
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--bg-color); /* Use variable */
-    color: var(--text-color);         /* Use variable */
+    background-color: var(--bg-color);
+    color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -96,50 +69,75 @@ body {
 
 .game-container {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* --- Menu Styles --- */
 #menu {
-    padding: 40px 40px 60px 40px; /* Increased bottom padding for settings button */
+    padding: 40px 40px 60px 40px; /* Bottom padding for settings icon */
     background-color: var(--board-bg);
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    position: relative; /* Needed for absolute positioning of settings button */
+    position: relative;
     transition: background-color 0.3s ease;
+    width: 350px; /* Adjusted width */
+    max-width: 90%;
+    box-sizing: border-box;
 }
 
 #menu h1 {
     margin-top: 0;
+    margin-bottom: 25px; /* More space below title */
     color: var(--accent-color);
-    font-size: 3em;
+    font-size: 2.8em; /* Slightly smaller */
     text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
     transition: color 0.3s ease;
 }
 
+.menu-options {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: stretch; /* Make buttons fill width */
+    gap: 12px; /* Space between buttons */
+    margin-bottom: 25px; /* Space before settings icon */
+}
+
 .menu-options button {
     background-color: var(--accent-color);
-    color: var(--button-text); /* Use variable */
+    color: var(--button-text);
     border: none;
-    padding: 15px 30px;
-    font-size: 1.2em;
+    padding: 12px 20px;
+    font-size: 1.1em;
     border-radius: 5px;
     cursor: pointer;
-    margin: 10px;
-    transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease, opacity 0.3s ease;
     font-weight: bold;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
 }
 
-.menu-options button:hover {
+.menu-options button:hover:not(:disabled) {
     filter: brightness(1.1);
     transform: translateY(-2px);
 }
 
-.menu-options button:active {
+.menu-options button:active:not(:disabled) {
     transform: translateY(0px);
     filter: brightness(0.9);
 }
 
+/* Style disabled Load Game button */
+.menu-options button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    filter: grayscale(30%);
+    background-color: grey; /* More visible disabled state */
+    box-shadow: none;
+}
+
+/* Settings Icon Button */
 #settings-btn {
     position: absolute;
     bottom: 15px;
@@ -147,235 +145,206 @@ body {
     transform: translateX(-50%);
     background: none;
     border: none;
-    color: var(--text-color); /* Use variable */
+    color: var(--text-color);
     cursor: pointer;
     padding: 5px;
     opacity: 0.7;
     transition: opacity 0.3s ease, color 0.3s ease;
 }
-#settings-btn:hover {
-    opacity: 1;
-}
-#settings-btn svg {
-    width: 28px;
-    height: 28px;
-    fill: currentColor; /* Make SVG use the button's color */
-}
+#settings-btn:hover { opacity: 1; }
+#settings-btn svg { width: 28px; height: 28px; fill: currentColor; }
 
 
 /* --- Settings Modal Styles --- */
 .modal {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
+    position: fixed; left: 0; top: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); display: flex;
+    justify-content: center; align-items: center; z-index: 1000;
+    opacity: 0; visibility: hidden;
     transition: opacity 0.3s ease, visibility 0s linear 0.3s;
 }
-
-.modal:not(.hidden) { /* Use :not(.hidden) for smooth transition */
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease;
-}
+.modal:not(.hidden) { opacity: 1; visibility: visible; transition: opacity 0.3s ease; }
 
 .modal-content {
-    background-color: var(--modal-bg); /* Use variable */
-    color: var(--modal-text);          /* Use variable */
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-    position: relative;
-    min-width: 300px;
-    max-width: 90%;
+    background-color: var(--modal-bg); color: var(--modal-text);
+    padding: 20px 30px; border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4); position: relative;
+    min-width: 380px; max-width: 90%; /* Slightly wider */
     transition: background-color 0.3s ease, color 0.3s ease;
+    max-height: 85vh; /* Limit height */
+    overflow-y: auto; /* Add scroll if needed */
 }
 
 .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 2em;
-    font-weight: bold;
-    color: var(--modal-text); /* Use variable */
-    cursor: pointer;
-    line-height: 1;
-    transition: color 0.3s ease;
+    position: absolute; top: 10px; right: 15px; font-size: 2em;
+    font-weight: bold; color: var(--modal-text); cursor: pointer;
+    line-height: 1; transition: color 0.3s ease;
 }
-.close-btn:hover {
-    color: var(--accent-color); /* Use variable */
+.close-btn:hover { color: var(--accent-color); }
+
+.setting-option {
+    margin-bottom: 20px; padding-bottom: 15px;
+    border-bottom: 1px solid rgba(128,128,128,0.3);
 }
+.setting-option:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 
 .setting-option h3 {
-    margin-top: 0;
-    margin-bottom: 15px;
-    border-bottom: 1px solid var(--accent-color); /* Use variable */
-    padding-bottom: 5px;
-    color: var(--accent-color); /* Use variable */
-    transition: color 0.3s ease, border-color 0.3s ease;
+    margin-top: 0; margin-bottom: 10px; color: var(--accent-color);
+    font-size: 1.1em; transition: color 0.3s ease;
 }
 
-.theme-choices {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
+.setting-choices { display: flex; flex-wrap: wrap; gap: 8px; }
 
-.theme-choice {
-    padding: 8px 15px;
-    border: 2px solid var(--accent-color); /* Use variable */
-    background-color: transparent;
-    color: var(--accent-color); /* Use variable */
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+/* General setting button style (for Theme/Difficulty) */
+.setting-btn {
+    padding: 6px 12px; font-size: 0.9em;
+    border: 1px solid var(--accent-color); background-color: transparent;
+    color: var(--accent-color); border-radius: 5px; cursor: pointer;
+    font-weight: 500; transition: background-color 0.2s ease, color 0.2s ease;
+    margin: 3px;
 }
-.theme-choice:hover {
-    background-color: var(--accent-color); /* Use variable */
-    color: var(--modal-bg); /* Use variable */
+.setting-btn:hover {
+    background-color: var(--accent-color);
+    color: var(--modal-bg, var(--default-bg-color)); /* Use modal bg for text contrast */
 }
-.theme-choice.active { /* Style for the currently selected theme */
+/* Active state for Theme/Difficulty */
+.setting-btn.active {
      background-color: var(--accent-color);
-     color: var(--modal-bg);
-     font-weight: bold;
+     color: var(--modal-bg, var(--default-bg-color));
+     font-weight: bold; box-shadow: inset 0 0 4px rgba(0,0,0,0.2);
 }
+/* Reset/Danger button style */
+.danger-btn { border-color: #e53935; color: #e53935; }
+.danger-btn:hover { background-color: #e53935; color: var(--modal-text, #fff); }
+#reset-stats-btn { margin-top: 15px; } /* Space above reset button */
 
 
-/* --- Game Area Styles (Using Variables) --- */
-#game-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* --- Statistics Display Styles --- */
+.stats-container {
+    margin-top: 10px; margin-bottom: 15px; padding: 10px 15px;
+    background-color: rgba(0,0,0,0.1);
+    border: 1px solid var(--square-border, rgba(128,128,128,0.2));
+    border-radius: 6px; font-size: 0.9em; text-align: left;
 }
+.stats-container p { margin: 0; font-style: italic; opacity: 0.7; } /* Loading text */
+
+.stats-section-header {
+    font-weight: bold; color: var(--accent-color); margin-top: 10px;
+    margin-bottom: 8px; font-size: 1.05em;
+    border-bottom: 1px solid var(--accent-color); padding-bottom: 4px;
+}
+.stats-section-header:first-child { margin-top: 0; }
+
+.stats-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 5px 0; border-bottom: 1px dashed rgba(128,128,128,0.15);
+    margin-bottom: 3px;
+}
+.stats-row:last-child { border-bottom: none; margin-bottom: 0; }
+
+.stats-label {
+    flex-basis: 35%; /* Slightly less space */ font-weight: 500;
+    color: var(--modal-text); padding-right: 10px; text-transform: capitalize;
+}
+
+.stats-values {
+    flex-grow: 1; display: flex; justify-content: flex-end;
+    gap: 12px; /* Adjust gap */ text-align: right;
+}
+
+.stat-value { display: inline-block; min-width: 45px; text-align: right; } /* Wider min-width */
+.stat-value .value-label { font-weight: bold; margin-right: 4px; opacity: 0.8; }
+.stat-value.win .value-label { color: #66bb6a; } /* Softer Green */
+.stat-value.loss .value-label { color: #ef5350; } /* Softer Red */
+.stat-value.draw .value-label { color: #bdbdbd; } /* Softer Grey */
+.stat-value .value-number { font-weight: bold; color: var(--modal-text); }
+
+
+/* --- Game Area Styles --- */
+#game-area { display: flex; flex-direction: column; align-items: center; }
 
 .status-bar {
-    display: flex;
-    justify-content: space-between;
-    width: 480px; /* Match board width */
-    margin-bottom: 15px;
-    font-size: 1.1em;
-    font-weight: bold;
-    padding: 10px 20px;
-    background-color: var(--board-bg);
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    transition: background-color 0.3s ease;
+    display: flex; justify-content: space-between; width: 494px; /* Adjusted width slightly */
+    margin-bottom: 15px; font-size: 1.1em; font-weight: bold;
+    padding: 10px 20px; background-color: var(--board-bg);
+    border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease; box-sizing: border-box;
 }
 
 #board {
-    display: grid;
-    grid-template-columns: repeat(8, 60px);
-    grid-template-rows: repeat(8, 60px);
-    gap: 2px;
-    background-color: var(--square-border); /* Grid line color */
-    border: 3px solid var(--square-border);
-    padding: 5px;
-    background-color: var(--board-bg);
-    border-radius: 8px;
+    display: grid; grid-template-columns: repeat(8, 60px); grid-template-rows: repeat(8, 60px);
+    gap: 2px; background-color: var(--square-border);
+    border: 3px solid var(--square-border); padding: 5px;
+    background-color: var(--board-bg); border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .square {
-    background-color: var(--square-bg); /* Use variable */
-    width: 60px;
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    transition: background-color 0.3s ease;
+    background-color: var(--square-bg); width: 60px; height: 60px;
+    display: flex; justify-content: center; align-items: center;
+    position: relative; transition: background-color 0.3s ease;
 }
 
 .piece {
-    width: 85%;
-    height: 85%;
-    border-radius: 50%;
+    width: 85%; height: 85%; border-radius: 50%;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4), 0 2px 3px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease-out, background-color 0.3s ease;
 }
+.black-piece { background-color: var(--black-piece); }
+.white-piece { background-color: var(--white-piece); }
 
-.black-piece {
-    background-color: var(--black-piece); /* Use variable */
-}
-
-.white-piece {
-    background-color: var(--white-piece); /* Use variable */
-}
-
-/* --- Valid Move Indicator (Using Variables) --- */
+/* Valid Move Indicator */
 .valid-move-indicator {
-    position: absolute;
-    width: 40%;
-    height: 40%;
-    border-radius: 50%;
-    background-color: var(--valid-move-color); /* Use variable */
-    cursor: pointer;
+    position: absolute; width: 40%; height: 40%; border-radius: 50%;
+    background-color: var(--valid-move-color); cursor: pointer;
     transition: background-color 0.2s ease;
 }
+.square:hover .valid-move-indicator { background-color: var(--hover-valid-move-color); }
 
-.square:hover .valid-move-indicator {
-    background-color: var(--hover-valid-move-color); /* Use variable */
-}
-
-/* --- Game Over & Buttons (Using Variables) --- */
+/* Game Over Message */
 #game-over-message {
-    margin-top: 20px;
-    font-size: 1.5em;
-    font-weight: bold;
-    color: var(--accent-color); /* Use variable */
-    padding: 15px;
-    background-color: var(--board-bg); /* Use variable */
-    border-radius: 5px;
+    margin-top: 15px; font-size: 1.4em; font-weight: bold;
+    color: var(--accent-color); padding: 12px 20px;
+    background-color: var(--board-bg); border-radius: 5px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* In-game Buttons Container */
 .game-buttons {
-    margin-top: 15px;
-    display: flex;
-    gap: 15px; /* Space between buttons */
+    margin-top: 15px; display: flex; flex-wrap: wrap;
+    justify-content: center; gap: 10px; width: 100%; max-width: 494px;
+}
+/* In-game Button Styling */
+.game-buttons button {
+    background-color: var(--accent-color); color: var(--button-text);
+    border: none; padding: 10px 18px; font-size: 0.95em;
+    border-radius: 5px; cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease, opacity 0.3s ease;
+    font-weight: bold; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    flex-grow: 0; /* Prevent buttons from stretching unevenly */
+}
+.game-buttons button:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-1px); }
+.game-buttons button:active:not(:disabled) { transform: translateY(0px); filter: brightness(0.9); }
+.game-buttons button:disabled {
+    opacity: 0.5; cursor: not-allowed; transform: none;
+    filter: grayscale(30%); box-shadow: none; background-color: grey;
 }
 
-#restart-btn, #back-to-menu-btn {
-    /* Shared styles */
-    background-color: var(--accent-color); /* Use variable */
-    color: var(--button-text); /* Use variable */
-    border: none;
-    padding: 12px 25px;
-    font-size: 1.1em;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
-    font-weight: bold;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+/* Action Feedback Message */
+.feedback-message {
+    margin-top: 10px; padding: 8px 15px; border-radius: 4px;
+    font-size: 0.9em; font-weight: bold;
+    background-color: var(--accent-color); color: var(--button-text);
+    opacity: 0; transition: opacity 0.5s ease-out;
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    z-index: 1100; box-shadow: 0 2px 8px rgba(0,0,0,0.3); pointer-events: none; /* Prevent clicking on it */
 }
-
-#restart-btn:hover, #back-to-menu-btn:hover {
-     filter: brightness(1.1);
-     transform: translateY(-2px);
-}
-#restart-btn:active, #back-to-menu-btn:active {
-    transform: translateY(0px);
-    filter: brightness(0.9);
-}
+.feedback-message:not(.hidden) { opacity: 1; }
 
 
 /* Utility Class */
-.hidden {
-    /* Use visibility and opacity for transitions on modal */
-    visibility: hidden;
-    opacity: 0;
-    /* For other elements, display:none is fine if no transition needed */
-}
-#game-area.hidden, #menu.hidden, #restart-btn.hidden, #game-over-message.hidden {
-     display: none !important; /* Keep display:none for non-modal hidden elements */
-}
+.hidden { display: none !important; }
+/* Modal specific hiding for transitions */
+.modal.hidden { visibility: hidden; opacity: 0; }
