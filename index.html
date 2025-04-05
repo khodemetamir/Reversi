@@ -6,14 +6,29 @@
     <title>Othello / Reversi</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body> <div id="settings-panel" class="settings-panel hidden">
+        <h2>Settings</h2>
+        <div class="setting-option">
+            <label>Theme:</label>
+            <div class="theme-buttons">
+                <button class="theme-btn" data-theme="theme-dark-green">Dark Green</button>
+                <button class="theme-btn" data-theme="theme-ocean-blue">Ocean Blue</button>
+                <button class="theme-btn" data-theme="theme-crimson-night">Crimson Night</button>
+                <button class="theme-btn" data-theme="theme-classic-light">Classic Light</button>
+            </div>
+        </div>
+        <button id="close-settings-btn">Close</button>
+    </div>
+    <div id="settings-overlay" class="overlay hidden"></div>
+
+
     <div class="game-container">
         <div id="menu">
             <h1>Othello</h1>
             <div class="menu-options">
                 <button id="multiplayer-btn">Multiplayer</button>
                 <button id="bot-btn">Play vs Bot</button>
-            </div>
+                <button id="settings-btn">Settings</button> </div>
         </div>
 
         <div id="game-area" class="hidden">

@@ -489,4 +489,4 @@ document.addEventListener('DOMContentLoaded', () => {
         return finalScore;
     }
 
-}); // End DOMContentLoaded
+}); 
