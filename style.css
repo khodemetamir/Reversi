@@ -1,25 +1,97 @@
+/* --- Base Variables (Defaults - Dark Theme) --- */
 :root {
-    --bg-color: #1a1d21;         /* Dark background */
-    --board-bg: #101214;        /* Slightly darker board background */
-    --square-bg: #0c4b33;       /* Dark Green for squares */
-    --square-border: #083323;   /* Darker border for squares */
-    --text-color: #e0e0e0;       /* Light grey text */
-    --accent-color: #4caf50;     /* Green accent for highlights/buttons */
-    --black-piece: #2c3e50;      /* Dark blue-grey for black pieces */
-    --white-piece: #ecf0f1;      /* Off-white for white pieces */
-    --valid-move-color: rgba(76, 175, 80, 0.5); /* Semi-transparent green */
-    --hover-valid-move-color: rgba(76, 175, 80, 0.8);
+    --default-bg-color: #1a1d21;
+    --default-board-bg: #101214;
+    --default-square-bg: #0c4b33; /* Dark Green */
+    --default-square-border: #083323;
+    --default-text-color: #e0e0e0;
+    --default-accent-color: #4caf50; /* Green */
+    --default-black-piece: #2c3e50; /* Dark blue-grey */
+    --default-white-piece: #ecf0f1; /* Off-white */
+    --default-valid-move-color: rgba(76, 175, 80, 0.5);
+    --default-hover-valid-move-color: rgba(76, 175, 80, 0.8);
+    --default-modal-bg: #2c3e50;
+    --default-modal-text: #ecf0f1;
+    --default-button-text: #1a1d21;
 }
 
+/* --- Theme Definitions --- */
+.theme-default {
+    --bg-color: var(--default-bg-color);
+    --board-bg: var(--default-board-bg);
+    --square-bg: var(--default-square-bg);
+    --square-border: var(--default-square-border);
+    --text-color: var(--default-text-color);
+    --accent-color: var(--default-accent-color);
+    --black-piece: var(--default-black-piece);
+    --white-piece: var(--default-white-piece);
+    --valid-move-color: var(--default-valid-move-color);
+    --hover-valid-move-color: var(--default-hover-valid-move-color);
+    --modal-bg: var(--default-modal-bg);
+    --modal-text: var(--default-modal-text);
+    --button-text: var(--default-button-text);
+}
+
+.theme-blue {
+    --bg-color: #1c2331; /* Dark Blueish */
+    --board-bg: #11161f;
+    --square-bg: #2a5a7a; /* Medium Blue */
+    --square-border: #1a3c5a;
+    --text-color: #c5cae9; /* Lighter Blue/Lavender */
+    --accent-color: #42a5f5; /* Bright Blue */
+    --black-piece: #37474f; /* Dark Slate Grey */
+    --white-piece: #e3f2fd; /* Very Light Blue */
+    --valid-move-color: rgba(66, 165, 245, 0.5);
+    --hover-valid-move-color: rgba(66, 165, 245, 0.8);
+    --modal-bg: #37474f;
+    --modal-text: #e3f2fd;
+    --button-text: #1c2331;
+}
+
+.theme-forest {
+    --bg-color: #263238; /* Dark Grey Green */
+    --board-bg: #1b2326;
+    --square-bg: #38553a; /* Forest Green */
+    --square-border: #2a402c;
+    --text-color: #dcedc8; /* Light Greenish Yellow */
+    --accent-color: #8bc34a; /* Lime Green */
+    --black-piece: #3e2723; /* Dark Brown */
+    --white-piece: #f1f8e9; /* Very Light Green */
+    --valid-move-color: rgba(139, 195, 74, 0.5);
+    --hover-valid-move-color: rgba(139, 195, 74, 0.8);
+    --modal-bg: #3e2723;
+    --modal-text: #f1f8e9;
+    --button-text: #263238;
+}
+
+.theme-classic {
+    --bg-color: #f5f5f5; /* Light Grey */
+    --board-bg: #e0e0e0; /* Medium Grey */
+    --square-bg: #689f38; /* Classic Green */
+    --square-border: #4e7a2a;
+    --text-color: #212121; /* Dark Grey / Black */
+    --accent-color: #d32f2f; /* Red */
+    --black-piece: #333333; /* Dark Grey */
+    --white-piece: #ffffff; /* Pure White */
+    --valid-move-color: rgba(211, 47, 47, 0.4); /* Transparent Red */
+    --hover-valid-move-color: rgba(211, 47, 47, 0.7);
+    --modal-bg: #ffffff;
+    --modal-text: #212121;
+    --button-text: #ffffff; /* White text on red buttons */
+}
+
+
+/* --- General Styles --- */
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
+    background-color: var(--bg-color); /* Use variable */
+    color: var(--text-color);         /* Use variable */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .game-container {
@@ -28,10 +100,12 @@ body {
 
 /* --- Menu Styles --- */
 #menu {
-    padding: 40px;
+    padding: 40px 40px 60px 40px; /* Increased bottom padding for settings button */
     background-color: var(--board-bg);
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    position: relative; /* Needed for absolute positioning of settings button */
+    transition: background-color 0.3s ease;
 }
 
 #menu h1 {
@@ -39,33 +113,143 @@ body {
     color: var(--accent-color);
     font-size: 3em;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    transition: color 0.3s ease;
 }
 
 .menu-options button {
     background-color: var(--accent-color);
-    color: var(--bg-color);
+    color: var(--button-text); /* Use variable */
     border: none;
     padding: 15px 30px;
     font-size: 1.2em;
     border-radius: 5px;
     cursor: pointer;
     margin: 10px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
     font-weight: bold;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
 }
 
 .menu-options button:hover {
-    background-color: #388e3c; /* Darker green on hover */
+    filter: brightness(1.1);
     transform: translateY(-2px);
 }
 
 .menu-options button:active {
     transform: translateY(0px);
+    filter: brightness(0.9);
+}
+
+#settings-btn {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: none;
+    border: none;
+    color: var(--text-color); /* Use variable */
+    cursor: pointer;
+    padding: 5px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease, color 0.3s ease;
+}
+#settings-btn:hover {
+    opacity: 1;
+}
+#settings-btn svg {
+    width: 28px;
+    height: 28px;
+    fill: currentColor; /* Make SVG use the button's color */
 }
 
 
-/* --- Game Area Styles --- */
+/* --- Settings Modal Styles --- */
+.modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.modal:not(.hidden) { /* Use :not(.hidden) for smooth transition */
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+}
+
+.modal-content {
+    background-color: var(--modal-bg); /* Use variable */
+    color: var(--modal-text);          /* Use variable */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+    position: relative;
+    min-width: 300px;
+    max-width: 90%;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--modal-text); /* Use variable */
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.3s ease;
+}
+.close-btn:hover {
+    color: var(--accent-color); /* Use variable */
+}
+
+.setting-option h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--accent-color); /* Use variable */
+    padding-bottom: 5px;
+    color: var(--accent-color); /* Use variable */
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.theme-choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.theme-choice {
+    padding: 8px 15px;
+    border: 2px solid var(--accent-color); /* Use variable */
+    background-color: transparent;
+    color: var(--accent-color); /* Use variable */
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+.theme-choice:hover {
+    background-color: var(--accent-color); /* Use variable */
+    color: var(--modal-bg); /* Use variable */
+}
+.theme-choice.active { /* Style for the currently selected theme */
+     background-color: var(--accent-color);
+     color: var(--modal-bg);
+     font-weight: bold;
+}
+
+
+/* --- Game Area Styles (Using Variables) --- */
 #game-area {
     display: flex;
     flex-direction: column;
@@ -83,29 +267,32 @@ body {
     background-color: var(--board-bg);
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease;
 }
 
 #board {
     display: grid;
     grid-template-columns: repeat(8, 60px);
     grid-template-rows: repeat(8, 60px);
-    gap: 2px; /* Creates the grid lines */
+    gap: 2px;
     background-color: var(--square-border); /* Grid line color */
     border: 3px solid var(--square-border);
-    padding: 5px; /* Padding around the squares */
+    padding: 5px;
     background-color: var(--board-bg);
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .square {
-    background-color: var(--square-bg);
+    background-color: var(--square-bg); /* Use variable */
     width: 60px;
     height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative; /* For positioning the valid move indicator */
+    position: relative;
+    transition: background-color 0.3s ease;
 }
 
 .piece {
@@ -113,68 +300,82 @@ body {
     height: 85%;
     border-radius: 50%;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4), 0 2px 3px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s ease-out, background-color 0.3s ease; /* Added background-color transition */
+    transition: transform 0.3s ease-out, background-color 0.3s ease;
 }
 
 .black-piece {
-    background-color: var(--black-piece);
+    background-color: var(--black-piece); /* Use variable */
 }
 
 .white-piece {
-    background-color: var(--white-piece);
+    background-color: var(--white-piece); /* Use variable */
 }
 
-/* --- Valid Move Indicator --- */
+/* --- Valid Move Indicator (Using Variables) --- */
 .valid-move-indicator {
     position: absolute;
-    width: 40%; /* Smaller circle */
+    width: 40%;
     height: 40%;
     border-radius: 50%;
-    background-color: var(--valid-move-color);
+    background-color: var(--valid-move-color); /* Use variable */
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
 
 .square:hover .valid-move-indicator {
-    background-color: var(--hover-valid-move-color);
+    background-color: var(--hover-valid-move-color); /* Use variable */
 }
 
-/* --- Game Over & Restart --- */
+/* --- Game Over & Buttons (Using Variables) --- */
 #game-over-message {
     margin-top: 20px;
     font-size: 1.5em;
     font-weight: bold;
-    color: var(--accent-color);
+    color: var(--accent-color); /* Use variable */
     padding: 15px;
-    background-color: var(--board-bg);
+    background-color: var(--board-bg); /* Use variable */
     border-radius: 5px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-#restart-btn {
+.game-buttons {
     margin-top: 15px;
-    background-color: var(--accent-color);
-    color: var(--bg-color);
+    display: flex;
+    gap: 15px; /* Space between buttons */
+}
+
+#restart-btn, #back-to-menu-btn {
+    /* Shared styles */
+    background-color: var(--accent-color); /* Use variable */
+    color: var(--button-text); /* Use variable */
     border: none;
     padding: 12px 25px;
     font-size: 1.1em;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
     font-weight: bold;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
 }
 
-#restart-btn:hover {
-    background-color: #388e3c;
-    transform: translateY(-2px);
+#restart-btn:hover, #back-to-menu-btn:hover {
+     filter: brightness(1.1);
+     transform: translateY(-2px);
+}
+#restart-btn:active, #back-to-menu-btn:active {
+    transform: translateY(0px);
+    filter: brightness(0.9);
 }
 
-#restart-btn:active {
-    transform: translateY(0px);
-}
 
 /* Utility Class */
 .hidden {
-    display: none !important; /* Use !important carefully, but useful here */
+    /* Use visibility and opacity for transitions on modal */
+    visibility: hidden;
+    opacity: 0;
+    /* For other elements, display:none is fine if no transition needed */
+}
+#game-area.hidden, #menu.hidden, #restart-btn.hidden, #game-over-message.hidden {
+     display: none !important; /* Keep display:none for non-modal hidden elements */
 }
