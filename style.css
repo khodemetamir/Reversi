@@ -195,7 +195,7 @@ body {
 
 .setting-choices { display: flex; flex-wrap: wrap; gap: 8px; }
 
-/* General setting button style (for Theme/Difficulty) */
+/* General setting button style (for Theme/Difficulty/Color) */
 .setting-btn {
     padding: 6px 12px; font-size: 0.9em;
     border: 1px solid var(--accent-color); background-color: transparent;
@@ -207,7 +207,7 @@ body {
     background-color: var(--accent-color);
     color: var(--modal-bg, var(--default-bg-color)); /* Use modal bg for text contrast */
 }
-/* Active state for Theme/Difficulty */
+/* Active state for Theme/Difficulty/Color */
 .setting-btn.active {
      background-color: var(--accent-color);
      color: var(--modal-bg, var(--default-bg-color));
