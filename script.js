@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const BOARD_SIZE = 8;
     const EMPTY = 0; const BLACK = 1; const WHITE = 2;
     // AI Depths per difficulty
-    const MAX_AI_DEPTH_EXPERT = 6;
+    const MAX_AI_DEPTH_EXPERT = 8;
     const MAX_AI_DEPTH_HARD = 5;
     const MAX_AI_DEPTH_MEDIUM = 3;
     const MAX_AI_DEPTH_EASY = 1;
@@ -67,8 +67,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Opening Book (Example) ---
     const openingBook = {
-        '0000000000000000000120000001210000021100000000000000000000000000': [3, 2],
-        '0000000000000000000120000021210000121100000000000000000000000000': [2, 3],
+        // Initial state (Black to play)
+        '0000000000000000000120000001210000021100000000000000000000000000': [3, 2], // Standard diagonal opening
+        // After Black plays 3,2 (White to play)
+        '0000000000000000000110000001110000021100000000000000000000000000': [2, 4], // Common perpendicular response
+        // After Black plays 3,2 -> White plays 2,4 (Black to play)
+        '0000000000000000002112000001110000021100000000000000000000000000': [4, 2],
+        // After Black plays 3,2 -> White plays 2,4 -> Black plays 4,2 (White to play)
+        '0000000000000000002112000011110000011100000000000000000000000000': [5, 2],
+
+        // Alternative initial state (Black to play)
+        '0000000000000000000120000001210000021100000000000000000000000000': [2, 3], // Standard parallel opening
+        // After Black plays 2,3 (White to play)
+        '0000000000000000000110000011210000021100000000000000000000000000': [4, 2],
+         // After Black plays 2,3 -> White plays 4,2 (Black to play)
+        '0000000000000000000110000011212000011120000000000000000000000000': [5, 3],
+
+        // Adding more variations based on common lines
+        '0000000000000000000120000001210000021100000000000000000000000000': [4, 5], // Diagonal variation
+        '0000000000000000000110000011110000021100000000000000000000000000': [2, 4], // Response to 4,5
+
     };
 
     // --- Directions & Positional Weights ---
@@ -710,15 +728,46 @@ document.addEventListener('DOMContentLoaded', () => {
         let botPositional = 0, humanPositional = 0;
         let botFrontier = 0, humanFrontier = 0;
         let botSafe = 0, humanSafe = 0;
-        const corners = [[0,0], [0,7], [7,0], [7,7]];
+        // Define axes for stability check
+        const axes = [
+            [[0, 1], [0, -1]], // Horizontal
+            [[1, 0], [-1, 0]], // Vertical
+            [[1, 1], [-1, -1]], // Diagonal \ 
+            [[1, -1], [-1, 1]]  // Diagonal /
+        ];
 
         for (let r = 0; r < BOARD_SIZE; r++) {
             for (let c = 0; c < BOARD_SIZE; c++) {
                 const piece = boardToEvaluate[r][c];
                 if (piece === EMPTY) continue;
 
-                let isCorner = corners.some(corner => corner[0] === r && corner[1] === c);
-                let isSafe = isCorner; // Simplistic: only corners are safe
+                // --- Stability Check --- 
+                let isSafe = true; // Assume safe initially
+                for (const axis of axes) {
+                    let lineSafe = false;
+                    for (const direction of axis) {
+                        let lineFilled = true;
+                        let nr = r + direction[0];
+                        let nc = c + direction[1];
+                        while (isValid(nr, nc)) {
+                            if (boardToEvaluate[nr][nc] !== piece) {
+                                lineFilled = false;
+                                break;
+                            }
+                            nr += direction[0];
+                            nc += direction[1];
+                        }
+                        if (lineFilled) {
+                            lineSafe = true; // Safe along one full direction of this axis
+                            break; // No need to check the other direction of this axis
+                        }
+                    }
+                    if (!lineSafe) { // If not safe along EITHER direction of this axis
+                        isSafe = false; // Then the piece is not stable
+                        break; // No need to check other axes
+                    }
+                }
+                // --- End Stability Check ---
 
                 if (piece === botPlayerColor) { // Bot's pieces
                     botPositional += positionalWeights[r][c];
@@ -738,17 +787,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // --- Determine Game Phase ---
         let phase;
-        if (emptyCount > 40) phase = 1;
-        else if (emptyCount > ENDGAME_DEPTH_LIMIT) phase = 2;
-        else phase = 3;
+        if (emptyCount > 40) phase = 1; // Opening
+        else if (emptyCount > ENDGAME_DEPTH_LIMIT) phase = 2; // Midgame
+        else phase = 3; // Endgame
 
-        // --- Assign Weights Based on Phase ---
+        // --- Assign Weights Based on Phase (Adjusted) ---
         let posW, mobW, frontW, stabW, parityW;
-        if (phase === 1) { posW = 10; mobW = 200; frontW = -75; stabW = 1000; parityW = 10; }
-        else if (phase === 2) { posW = 15; mobW = 150; frontW = -50; stabW = 1200; parityW = 150; }
-        else { posW = 20; mobW = 100; frontW = -10; stabW = 1500; parityW = 500; }
+        if (phase === 1) { posW = 5; mobW = 200; frontW = -75; stabW = 500; parityW = 5; } // Less emphasis on position/stability early
+        else if (phase === 2) { posW = 10; mobW = 150; frontW = -50; stabW = 1500; parityW = 100; } // Stability becomes more important
+        else { posW = 15; mobW = 100; frontW = -10; stabW = 3000; parityW = 500; } // Stability is crucial in endgame
 
-        // --- Calculate Component Scores (always from bot's perspective) ---
+        // --- Calculate Component Scores (logic remains the same, values change due to weights) ---
         let positionalScore = posW * (botPositional - humanPositional);
         let stabilityScore = stabW * (botSafe - humanSafe);
         let frontierScore = frontW * (botFrontier - humanFrontier); // Higher frontier is bad
@@ -757,20 +806,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (botMoves + humanMoves !== 0) {
              mobilityScore = mobW * (botMoves - humanMoves); // Bot wants more moves than human
         }
-        // Bonus/penalty if one player has zero moves
+        // Bonus/penalty if one player has zero moves (logic remains the same)
         if (phase > 1) {
-             if (botMoves > 0 && humanMoves === 0) mobilityScore += mobW * 1.5; // Bonus if human must pass
-             if (humanMoves > 0 && botMoves === 0) mobilityScore -= mobW * 1.5; // Penalty if bot must pass
+             if (botMoves > 0 && humanMoves === 0) mobilityScore += mobW * 1.5;
+             if (humanMoves > 0 && botMoves === 0) mobilityScore -= mobW * 1.5;
         }
 
-        // Parity Score: Bot (maximizer) wants the last move. Last move happens when emptyCount is 1.
-        // If emptyCount is odd *now*, the current player will get the last move.
-        // If emptyCount is even *now*, the opponent will get the last move.
-        // Evaluation happens *after* a move is simulated.
-        // We need to know whose turn it *would* be next. This isn't easily known here.
-        // Simplified parity: Assume bot wants even remaining squares *after its move*.
-        // So, if emptyCount is ODD now, bot gets a bonus.
-        let parityScore = (emptyCount % 2 !== 0) ? parityW : -parityW; // Bonus to BOT if odd squares remain (meaning bot likely gets last move)
+        // Parity Score (logic remains the same)
+        let parityScore = (emptyCount % 2 !== 0) ? parityW : -parityW;
 
 
         // --- Combine Heuristics ---
