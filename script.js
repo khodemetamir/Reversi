@@ -24,6 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveGameBtn = document.getElementById('save-game-btn');
     const undoBtn = document.getElementById('undo-btn');
     const actionFeedbackElement = document.getElementById('action-feedback');
+    // Added references for stats toggle
+    const toggleStatsBtn = document.getElementById('toggle-stats-btn');
+    const statsContent = document.getElementById('stats-content');
 
     // --- Constants ---
     const BOARD_SIZE = 8;
@@ -105,6 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
         backToMenuBtn.addEventListener('click', goBackToMenu);
         saveGameBtn.addEventListener('click', saveGame);
         undoBtn.addEventListener('click', handleUndo);
+        // Added listener for stats toggle button
+        toggleStatsBtn.addEventListener('click', handleToggleStats);
     }
 
     // --- Game Start & Initialization ---
@@ -261,6 +266,13 @@ document.addEventListener('DOMContentLoaded', () => {
         updateActiveDifficultyButton();
         // Update player color button state
         updateActivePlayerColorButton();
+        // Ensure stats content is hidden initially when modal opens
+        if (statsContent && !statsContent.classList.contains('hidden')) {
+            statsContent.classList.add('hidden');
+        }
+        if (toggleStatsBtn) {
+            toggleStatsBtn.textContent = 'Show Statistics'; // Reset button text
+        }
         settingsModal.classList.remove('hidden');
     }
     function closeSettingsModal() { settingsModal.classList.add('hidden'); }
@@ -304,6 +316,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayStats() { /* ... (keep existing code, maybe adjust labels like 'Your W/L/D vs Bot') ... */ const stats=getStats();statsDisplayElement.innerHTML='';function createStatValueElement(label, value, typeClass) {const span=document.createElement('span');span.classList.add('stat-value',typeClass);const l=document.createElement('span');l.classList.add('value-label');l.textContent=`${label}:`;span.appendChild(l);const n=document.createElement('span');n.classList.add('value-number');n.textContent=value;span.appendChild(n);return span;} function createStatsRow(label, winValue, lossValue, drawValue) { const div=document.createElement('div');div.classList.add('stats-row');const l=document.createElement('span');l.classList.add('stats-label');l.textContent=label;div.appendChild(l);const v=document.createElement('div');v.classList.add('stats-values');v.appendChild(createStatValueElement('W',winValue,'win'));v.appendChild(createStatValueElement('L',lossValue,'loss'));v.appendChild(createStatValueElement('D',drawValue,'draw'));div.appendChild(v);return div; } const vsBotHeader=document.createElement('div');vsBotHeader.classList.add('stats-section-header');vsBotHeader.textContent='Your W/L/D vs Bot';statsDisplayElement.appendChild(vsBotHeader);['easy','medium','hard','expert'].forEach(diff=>{const s=stats.vsBot[diff]||{w:0,l:0,d:0};statsDisplayElement.appendChild(createStatsRow(diff,s.w,s.l,s.d));});const mpHeader=document.createElement('div');mpHeader.classList.add('stats-section-header');mpHeader.textContent='Multiplayer';statsDisplayElement.appendChild(mpHeader);const mpRow=document.createElement('div');mpRow.classList.add('stats-row');mpRow.innerHTML=`<span class="stats-label">Record</span><span class="stats-values"><span class="stat-value win"><span class="value-label">B:</span><span class="value-number">${stats.multiplayer.blackWins}</span></span><span class="stat-value win"><span class="value-label">W:</span><span class="value-number">${stats.multiplayer.whiteWins}</span></span><span class="stat-value draw"><span class="value-label">D:</span><span class="value-number">${stats.multiplayer.draws}</span></span></span>`;statsDisplayElement.appendChild(mpRow); }
 
     function handleResetStats() { if (confirm("Reset all statistics?")) { saveStats(getDefaultStats()); displayStats(); showActionFeedback("Statistics Reset!"); } }
+
+    // --- Function to toggle Statistics visibility ---
+    function handleToggleStats() {
+        if (!statsContent || !toggleStatsBtn) return;
+        const isHidden = statsContent.classList.toggle('hidden');
+        toggleStatsBtn.textContent = isHidden ? 'Show Statistics' : 'Hide Statistics';
+    }
 
     function saveGame() {
         if (gameOver || gameMode === null) { showActionFeedback("Cannot save game now.", true); return; }
@@ -376,9 +395,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     square.appendChild(piece);
                 } else { // Empty square
                     const isMoveValid = validMoves.some(move => move[0] === r && move[1] === c);
-                    // Add indicator/listener only if it's a valid move for the *human* player's turn
-                    // Check against humanPlayer, not just BLACK
-                    if (isMoveValid && !gameOver && currentPlayer === humanPlayer && (gameMode === 'multiplayer' || gameMode === 'bot')) {
+                    // Add indicator/listener only if it's a valid move for the *human* player's turn (vs Bot)
+                    // OR if it's the current player's turn (Multiplayer)
+                    const isPlayerTurn = (gameMode === 'bot' && currentPlayer === humanPlayer) || (gameMode === 'multiplayer');
+
+                    if (isMoveValid && !gameOver && isPlayerTurn) {
                         const validMoveIndicator = document.createElement('div');
                         validMoveIndicator.classList.add('valid-move-indicator');
                         square.appendChild(validMoveIndicator);
@@ -419,15 +440,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const humanPlayer = playerPrefersColor;
         const botPlayer = getOpponent(humanPlayer);
 
-        // Prevent clicks during bot turn, game over, or if it's not the human's designated color's turn
-        if (gameOver || currentPlayer !== humanPlayer || (gameMode === 'bot' && currentPlayer === botPlayer)) return;
+        // Prevent clicks during bot turn, game over, or if it's not the human's designated color's turn (vs bot)
+        // In multiplayer, any click during the correct player's turn is allowed.
+        const blockClick = gameOver || 
+                           (gameMode === 'bot' && currentPlayer !== humanPlayer) ||
+                           (gameMode !== 'bot' && gameMode !== 'multiplayer'); // Block if mode not set
+
+        if (blockClick) return;
 
         const square = event.currentTarget;
         const r = parseInt(square.dataset.row);
         const c = parseInt(square.dataset.col);
 
-        // Validate move *for the human player*
-        if (isValidMove(r, c, humanPlayer)) { // Check validity for humanPlayer
+        // Validate move *for the human player* (vs bot) or current player (multiplayer)
+        const playerToCheck = gameMode === 'bot' ? humanPlayer : currentPlayer;
+        if (isValidMove(r, c, playerToCheck)) { // Check validity for relevant player
              makeMove(r, c); // makeMove uses the global currentPlayer
         } else {
              console.warn("Invalid square clicked or move check failed."); // Should not happen if listener logic is correct
